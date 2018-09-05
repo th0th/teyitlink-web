@@ -2,6 +2,8 @@ package database
 
 import (
 	"fmt"
+	"os"
+	
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
@@ -16,7 +18,8 @@ var DB *gorm.DB
 func InitDB() *gorm.DB {
 	db, err := gorm.Open("mysql", "link:root@/teyitlink?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
-		fmt.Println("db err: ", err)
+		fmt.Fprintf(os.Stderr, "An error occurred while initiating database connection: %v\n", err)
+		os.Exit(1)
 	}
 	db.DB().SetMaxIdleConns(10)
 	DB = db
